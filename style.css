@@ -1,0 +1,96 @@
+:root {
+    --background: rgba(250, 250, 250, 1);
+    --borders: rgba(0, 0, 0, .05);
+    --title: rgba(0, 0, 0, .65);
+    --text: rgba(0, 0, 0, .5);
+    --green: rgb(19, 160, 14);
+    --red: rgb(175, 22, 22);
+}
+
+* {
+    margin: 0;
+}
+
+div#currencyQuotesApp {
+    font-family: sans-serif;
+    font-size: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: var(--background);
+    border-top: 1px solid var(--borders);
+    border-bottom: 1px solid var(--borders);
+    padding: .5rem 1rem;
+}
+
+ul.quotes-currencies-list {
+    list-style: none;
+    display: grid;
+    grid-auto-flow: column;
+    padding: 0;
+}
+
+li.quote-currency-item {
+    padding: 0 .5rem 0 .5rem;
+    border-right: 1px solid var(--borders);
+    display: flex;
+    align-items: center;
+    width: 20rem;
+    justify-content: center;
+}
+
+li.quote-currency-item:last-child {
+    border-right: 0px solid var(--borders);
+}
+
+li.quote-currency-item>span {
+    margin-right: .5rem;
+    display: flex;
+    align-items: center;
+}
+
+li.quote-currency-item>span:last-child {
+    margin-right: 0rem;
+}
+
+span.quote-name {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: .8rem;
+    color: var(--title);
+}
+
+span.quote-price {
+    font-size: .8rem;
+    color: var(--text);
+}
+
+span.quote-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    line-height: 1.25rem;
+    border-radius: 1rem;
+    display: block;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: .65;
+}
+
+.quote-icon::before {
+    color: white;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.down::before {
+    content: '\21A7';
+    background: var(--red);
+}
+
+.up:before {
+    content: '\21A5';
+    background: var(--green);
+}
