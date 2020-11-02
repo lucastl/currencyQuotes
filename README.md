@@ -8,7 +8,7 @@
     + Left/Right click of mouse start animation to Left/Right.
 
 ### New feateures
-    + ~~Detect side to screen clicked/touched and start scroll animation to this side.~~ **In progress.-**
+    + ~~Detect side to screen clicked/touched and start scroll animation to this side~~. **In progress**.-
 
 ****[Demo](https://lucastl.github.io/currencyQuotes/)****
 ___

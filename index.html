@@ -26,7 +26,7 @@
             max: width
         }
 
-        document.addEventListener('click', (e) => {
+        app.appContainer.addEventListener('click', (e) => {
             const xCoord = e.clientX;
 
             if (xCoord >= rangeLeft.min && xCoord <= rangeLeft.max) {
