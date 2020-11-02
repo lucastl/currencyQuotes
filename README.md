@@ -1,12 +1,15 @@
-# Cotizaciones de monedas.
-Para un sitio web me pidieron mostrar cotizaciones de distintas monedas.
-Consumiendo una API pública cree con Javascript un slider donde van pasando las distintas cotizaciones.
+# Currencies Quotes
+For a project i developed a marquee slide to show all information.
+Consuming a public API, and built with pure Javascript.
 
-## Funcionalidades
-+ Autoplay, animación para mostrar el total de items.
-+ Al posicionarse encima, frena la animación. Al posicionarse fuera, reinicia la animación.
-+ Click derecho desplaza un elemento hacia la derecha.
-+ Click izquierdo desplaza un elemento hacia la izquierda.
+## Features
++ Autoplay animation.
++ Stop animation on hover mouse/touch. Start animation on out mouse/touch.
++ Left/Right click of mouse start animation to Left/Right.
++ 
+
+### New feateures
++ ~~Detect side to screen clicked/touched and start scroll animation to this side.~~ **In progress.-**
 ___
 - Author: **Lucas Tosello Latini**
 - Site: [lucastosellolatini.dev](https://lucastosellolatini.dev/)

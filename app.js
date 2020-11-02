@@ -8,7 +8,8 @@ class currencyQuotes {
         this.maxWidth = 0;
         this.currentScrollX = 0;
         this.timeChange = timeChange * 1000;
-        this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange);
+        // this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange);
+        this.startAutoSlide;
 
         // INIT
         this.getData()
