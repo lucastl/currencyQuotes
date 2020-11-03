@@ -6,7 +6,7 @@ class currencyQuotes {
         this.direction = 'RIGHT';
         this.itemWidth = 0;
         this.maxWidth = 0;
-        this.currentScrollX = 0;
+        this.currentXscroll = 0;
         this.timeChange = timeChange * 1000;
         this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange);
         this.ranges = {
@@ -19,6 +19,8 @@ class currencyQuotes {
                 to: window.innerWidth
             }
         };
+        this.initXswipe = 0;
+
         // INIT
         this.getData()
             .then(res => {
@@ -29,7 +31,7 @@ class currencyQuotes {
         // EVENTS
         this.appContainer.addEventListener('mouseover', () => this.stopAutoSlide(), false);
         this.appContainer.addEventListener('mouseout', () => this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange), false);
-        this.appContainer.addEventListener('click', e => this.detectSideScreen(e), false);
+        this.appContainer.addEventListener('dblclick', e => this.detectSideScreen(e), false);
         // // <--
         // this.appContainer.addEventListener('click', () => this.scrollRight());
         // this.appContainer.addEventListener('contextmenu', (e) => {
@@ -37,6 +39,9 @@ class currencyQuotes {
         //     this.scrollLeft()
         // }); 
         // // -->
+        ['mousedown', 'touchstart'].forEach(e => {
+            this.appContainer.addEventListener(e, this.startSwipe, false);
+        });
     };
 
     getData = async () => {
@@ -81,9 +86,9 @@ class currencyQuotes {
     };
 
     setDirection = () => {
-        const { currentScrollX, maxWidth } = this;
-        if (currentScrollX === 0) this.direction = 'RIGHT';
-        if (currentScrollX === maxWidth) this.direction = 'LEFT';
+        const { currentXscroll, maxWidth } = this;
+        if (currentXscroll === 0) this.direction = 'RIGHT';
+        if (currentXscroll === maxWidth) this.direction = 'LEFT';
     };
 
     scrollAnimate = () => {
@@ -95,7 +100,7 @@ class currencyQuotes {
     scrollLeft = () => {
         this.setCurrentScrollX();
         this.appContainer.scroll({
-            left: this.currentScrollX - this.itemWidth,
+            left: this.currentXscroll - this.itemWidth,
             behavior: 'smooth'
         });
     };
@@ -103,13 +108,13 @@ class currencyQuotes {
     scrollRight = () => {
         this.setCurrentScrollX();
         this.appContainer.scroll({
-            left: this.currentScrollX + this.itemWidth,
+            left: this.currentXscroll + this.itemWidth,
             behavior: 'smooth'
         });
     };
 
     setCurrentScrollX = () => {
-        this.currentScrollX = this.appContainer.scrollLeft;
+        this.currentXscroll = this.appContainer.scrollLeft;
     };
 
     stopAutoSlide = () => {
@@ -118,9 +123,36 @@ class currencyQuotes {
 
     detectSideScreen = e => {
         const coordX = e.clientX;
-        if (coordX >= this.ranges.leftSide.from && coordX <= this.ranges.leftSide.to) this.scrollLeft();
-        if (coordX >= this.ranges.rightSide.from && coordX <= this.ranges.rightSide.to) this.scrollRight();
+        if (coordX >= this.ranges.leftSide.from && coordX <= this.ranges.leftSide.to) this.scrollRight();
+        if (coordX >= this.ranges.rightSide.from && coordX <= this.ranges.rightSide.to) this.scrollLeft();
         return;
+    };
+
+    startSwipe = e => {
+        this.appContainer.style.cursor = 'grabbing';
+        this.setCurrentScrollX();
+        this.initXswipe = e.clientX;
+        ['mousemove', 'touchmove'].forEach(e => {
+            this.appContainer.addEventListener(e, this.swipig, false);
+        });
+        ['mouseup', 'touchend'].forEach(e => {
+            this.appContainer.addEventListener(e, this.endSwipe, false);
+        });
+    };
+
+    swipig = e => {
+        const dx = e.clientX - this.initXswipe;
+        this.appContainer.scrollLeft = this.currentXscroll - dx;
+    };
+
+    endSwipe = () => {
+        this.appContainer.style.cursor = 'grab';
+        ['mousemove', 'touchmove'].forEach(e => {
+            this.appContainer.removeEventListener(e, this.swipig, false);
+        });
+        ['mouseup', 'touchend'].forEach(e => {
+            this.appContainer.removeEventListener(e, this.endSwipe, false);
+        });
     };
 
 }

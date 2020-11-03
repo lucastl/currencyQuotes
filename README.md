@@ -4,11 +4,12 @@ Consuming a public API, and built with pure Javascript.
 
 ## Features
 + Autoplay animation.
-+ Stop animation on hover mouse/touch. Start animation on out mouse/touch.
-+ Detect side to screen clicked/touched and start scroll animation to this side.
++ Start/Stop animation on out/hover mouse/touch.
++ Detect side to screen double click/touch and start scroll animation to this side.
++ Swipe on click and drag.
 
 ### New feateures
-+ <strike>Swipe on touch/click and drag.</strike> **In progress**
++ ...
 
 ### Old feateures
 + <strike>Left/Right click of mouse start animation to Left/Right.</strike>
