@@ -15,26 +15,86 @@
     <script>
         const app = new currencyQuotes('currencyQuotesApp', 3);
 
-        const startInteraction = () => {
-            console.log('INICIA LA INTERACCIÓN');
+        var captureEnabled = false,
+            xFrom = 0,
+            xTo = 0,
+            xDraging = 0,
+            dragDirection = undefined,
+            pixelsDraged = 0;
+
+        startCapture = e => {
+            xFrom = e.clientX;
+            console.log('Capture enabled', `X: ${xFrom}`)
+            captureEnabled = true;
         }
 
-        const startMove = () => {
-            console.log('INICIA EL MOVIMIENTO');
+        captureDrag = e => {
+            if (captureEnabled) {
+                xDraging = e.clientX;
+                console.log('Capturing drag', `X: ${xDraging}`)
+                setDragDirection();
+                distanceDraged();
+                // swipe();
+            }
         }
 
-        const endInteraction = () => {
-            console.log('FINALIZA EL MOVIMIENTO');
+        distanceDraged = () => {
+            if (dragDirection === 'RIGHT') {
+                pixelsDraged = pixelsDraged + 1
+            }
+            if (dragDirection === 'LEFT') {
+                pixelsDraged = pixelsDraged - 1
+            }
         }
 
-        app.appContainer.addEventListener('mousedown', startInteraction, false);
-        app.appContainer.addEventListener('touchstart', startInteraction, false);
+        endCapture = e => {
+            xTop = e.clientX;
+            // console.log('Capture disabled', `X: ${xTop}`)
+            pixelsDraged = 0;
+            captureEnabled = false;
+        }
 
-        app.appContainer.addEventListener('mousemove', startMove, false);
-        app.appContainer.addEventListener('touchmove', startMove, false);
+        setDragDirection = () => {
+            if (xFrom < xDraging) {
+                dragDirection = 'RIGHT';
+                // console.log('Drag direction:', dragDirection)
+            }
+            if (xFrom > xDraging) {
+                dragDirection = 'LEFT';
+                // console.log('Drag direction:', dragDirection);
+            }
+        }
 
-        app.appContainer.addEventListener('mouseup', endInteraction, false);
-        app.appContainer.addEventListener('touchend', endInteraction, false);
+        swipe = () => {
+            xFromReset();
+            app.setCurrentScrollX();
+            app.appContainer.scroll({
+                left: app.currentScrollX - pixelsDraged,
+                // behavior: ''
+            });
+        }
+
+        xFromReset = () => {
+            if (xDraging !== xFrom) xFrom = xDraging;
+        }
+
+        // app.appContainer.addEventListener('mousedown', startCapture, false);
+        // app.appContainer.addEventListener('touchstart', startCapture, false);
+        ['mousedown', 'touchmove'].forEach(e => {
+            app.appContainer.addEventListener(e, startCapture, false);
+        });
+
+        // app.appContainer.addEventListener('mousemove', captureDrag, false);
+        // app.appContainer.addEventListener('touchmove', captureDrag, false);
+        ['mousemove', 'touchmove'].forEach(e => {
+            app.appContainer.addEventListener(e, captureDrag, false);
+        });
+
+        // app.appContainer.addEventListener('mouseup', endCapture, false);
+        // app.appContainer.addEventListener('touchend', endCapture, false);
+        ['mouseup', 'touchend'].forEach(e => {
+            app.appContainer.addEventListener(e, endCapture, false);
+        });
 
     </script>
 </body>

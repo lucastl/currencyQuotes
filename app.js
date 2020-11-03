@@ -27,14 +27,9 @@ class currencyQuotes {
             });
 
         // EVENTS
-        this.appContainer.addEventListener('mouseover', () => this.stopAutoSlide());
-        this.appContainer.addEventListener('mouseout', () => this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange));
-        this.appContainer.addEventListener('click', e => {
-            const coordX = e.clientX;
-            if (coordX >= this.ranges.leftSide.from && coordX <= this.ranges.leftSide.to) this.scrollLeft();
-            if (coordX >= this.ranges.rightSide.from && coordX <= this.ranges.rightSide.to) this.scrollRight();
-            return;
-        });
+        this.appContainer.addEventListener('mouseover', () => this.stopAutoSlide(), false);
+        this.appContainer.addEventListener('mouseout', () => this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange), false);
+        this.appContainer.addEventListener('click', e => this.detectSideScreen(e), false);
         // // <--
         // this.appContainer.addEventListener('click', () => this.scrollRight());
         // this.appContainer.addEventListener('contextmenu', (e) => {
@@ -42,12 +37,12 @@ class currencyQuotes {
         //     this.scrollLeft()
         // }); 
         // // -->
-    }
+    };
 
     getData = async () => {
         let response = await fetch('https://mercados.ambito.com//home/general');
         return await response.json();
-    }
+    };
 
     renderElements = (elements) => {
         const childs = elements.reduce((acc, currentCurrency) => {
@@ -61,13 +56,13 @@ class currencyQuotes {
             </ul>
         `;
         this.appContainer.innerHTML = list;
-    }
+    };
 
     setProps = () => {
         let { appContainer, classItem } = this;
         this.itemWidth = document.querySelector(`.${classItem}`).scrollWidth;
         this.maxWidth = appContainer.scrollWidth - appContainer.offsetWidth;
-    }
+    };
 
     quoteTemplate = (currency) => {
         const { nombre, compra, venta, variacion } = currency;
@@ -79,23 +74,23 @@ class currencyQuotes {
                     <span class="quote-price">${venta}</span>
                 </li>
             `;
-    }
+    };
 
     variation = variation => {
         return variation.includes('-') ? 'down' : 'up'
-    }
+    };
 
     setDirection = () => {
         const { currentScrollX, maxWidth } = this;
         if (currentScrollX === 0) this.direction = 'RIGHT';
         if (currentScrollX === maxWidth) this.direction = 'LEFT';
-    }
+    };
 
     scrollAnimate = () => {
         this.setDirection();
         if (this.direction === 'LEFT') this.scrollLeft();
         if (this.direction === 'RIGHT') this.scrollRight();
-    }
+    };
 
     scrollLeft = () => {
         this.setCurrentScrollX();
@@ -103,7 +98,7 @@ class currencyQuotes {
             left: this.currentScrollX - this.itemWidth,
             behavior: 'smooth'
         });
-    }
+    };
 
     scrollRight = () => {
         this.setCurrentScrollX();
@@ -111,14 +106,21 @@ class currencyQuotes {
             left: this.currentScrollX + this.itemWidth,
             behavior: 'smooth'
         });
-    }
+    };
 
     setCurrentScrollX = () => {
         this.currentScrollX = this.appContainer.scrollLeft;
-    }
+    };
 
     stopAutoSlide = () => {
         clearInterval(this.startAutoSlide)
+    };
+
+    detectSideScreen = e => {
+        const coordX = e.clientX;
+        if (coordX >= this.ranges.leftSide.from && coordX <= this.ranges.leftSide.to) this.scrollLeft();
+        if (coordX >= this.ranges.rightSide.from && coordX <= this.ranges.rightSide.to) this.scrollRight();
+        return;
     };
 
 }
