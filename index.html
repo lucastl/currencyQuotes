@@ -15,30 +15,26 @@
     <script>
         const app = new currencyQuotes('currencyQuotesApp', 3);
 
-        const width = window.innerWidth;
-        const widthHalf = window.innerWidth / 2;
-        const rangeLeft = {
-            min: 0,
-            max: widthHalf,
-        };
-        const rangeRight = {
-            min: widthHalf,
-            max: width
+        const startInteraction = () => {
+            console.log('INICIA LA INTERACCIÓN');
         }
 
-        app.appContainer.addEventListener('click', (e) => {
-            const xCoord = e.clientX;
+        const startMove = () => {
+            console.log('INICIA EL MOVIMIENTO');
+        }
 
-            if (xCoord >= rangeLeft.min && xCoord <= rangeLeft.max) {
-                console.log('Click LEFT');
-                app.scrollLeft();
-            }
+        const endInteraction = () => {
+            console.log('FINALIZA EL MOVIMIENTO');
+        }
 
-            if (xCoord >= rangeRight.min && xCoord <= rangeRight.max) {
-                console.log('Click RIGHT');
-                app.scrollRight();
-            }
-        })
+        app.appContainer.addEventListener('mousedown', startInteraction, false);
+        app.appContainer.addEventListener('touchstart', startInteraction, false);
+
+        app.appContainer.addEventListener('mousemove', startMove, false);
+        app.appContainer.addEventListener('touchmove', startMove, false);
+
+        app.appContainer.addEventListener('mouseup', endInteraction, false);
+        app.appContainer.addEventListener('touchend', endInteraction, false);
 
     </script>
 </body>

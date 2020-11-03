@@ -9,7 +9,16 @@ class currencyQuotes {
         this.currentScrollX = 0;
         this.timeChange = timeChange * 1000;
         this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange);
-        
+        this.ranges = {
+            leftSide: {
+                from: 0,
+                to: window.innerWidth / 2
+            },
+            rightSide: {
+                from: window.innerWidth / 2,
+                to: window.innerWidth
+            }
+        };
         // INIT
         this.getData()
             .then(res => {
@@ -17,18 +26,22 @@ class currencyQuotes {
                 this.setProps();
             });
 
-        // EVENTS    
-        this.appContainer.addEventListener('click', () => this.scrollRight());
-        this.appContainer.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            this.scrollLeft()
+        // EVENTS
+        this.appContainer.addEventListener('mouseover', () => this.stopAutoSlide());
+        this.appContainer.addEventListener('mouseout', () => this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange));
+        this.appContainer.addEventListener('click', e => {
+            const coordX = e.clientX;
+            if (coordX >= this.ranges.leftSide.from && coordX <= this.ranges.leftSide.to) this.scrollLeft();
+            if (coordX >= this.ranges.rightSide.from && coordX <= this.ranges.rightSide.to) this.scrollRight();
+            return;
         });
-        this.appContainer.addEventListener('mouseover', () => {
-            this.stopAutoSlide();
-        });
-        this.appContainer.addEventListener('mouseout', () => {
-            this.startAutoSlide = setInterval(this.scrollAnimate, this.timeChange);
-        });
+        // // <--
+        // this.appContainer.addEventListener('click', () => this.scrollRight());
+        // this.appContainer.addEventListener('contextmenu', (e) => {
+        //     e.preventDefault();
+        //     this.scrollLeft()
+        // }); 
+        // // -->
     }
 
     getData = async () => {

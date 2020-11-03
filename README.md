@@ -5,10 +5,13 @@ Consuming a public API, and built with pure Javascript.
 ## Features
 + Autoplay animation.
 + Stop animation on hover mouse/touch. Start animation on out mouse/touch.
-+ Left/Right click of mouse start animation to Left/Right.
++ Detect side to screen clicked/touched and start scroll animation to this side.
 
 ### New feateures
-+ <strike>Detect side to screen clicked/touched and start scroll animation to this side.</strike> **In progress**
++ <strike>Swipe on touch/click and drag.</strike> **In progress**
+
+### Old feateures
++ <strike>Left/Right click of mouse start animation to Left/Right.</strike>
 
 **[Demo](https://lucastl.github.io/currencyQuotes/)**
 ___
